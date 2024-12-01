@@ -1,7 +1,17 @@
-import { all, takeEvery } from 'redux-saga/effects';
+import { all, takeEvery, call, put, delay} from 'redux-saga/effects';
+import { fetchUsersSucess, fetchUsersFailure } from './slice';
+
+import axios from 'axios';
 
 function* fetchUsers() {
-    console.log("Chamou fetchUsers dentro do Saga");
+    try {
+        yield delay(2000);
+
+        const response = yield call(axios.get, "https://jsonplaceholder.typicode.com/users/")
+        yield put(fetchUsersSucess(response.data))
+    } catch(error) {
+        yield put(fetchUsersFailure(error.message))
+    }
 }
 
 export default all([

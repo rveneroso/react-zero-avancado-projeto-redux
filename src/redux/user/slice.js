@@ -3,6 +3,7 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     user: null,
     users: [],
+    loading: false,
 }
 
 export const userSlice = createSlice({
@@ -60,10 +61,27 @@ export const userSlice = createSlice({
             }
         },
         fetchUsers: (state) => {
-            console.log("Chamou fetchUsers")
+         state.loading = true;   
+        },
+        fetchUsersSucess: (state, action) => {
+            //console.log(action.payload)
+            state.users = action.payload;
+            state.loading = false;
+        },
+        fetchUsersFailure: (state, action) => {
+            console.log("Caiu na failure")
+            console.log(action.payload)
+            state.loading = false;
         }
     }
 })
 
-export const { createUser, logoutUser, addAddress, deleteAddress, fetchUsers } = userSlice.actions;
+export const { 
+    createUser, 
+    logoutUser, 
+    addAddress, 
+    deleteAddress, 
+    fetchUsers, 
+    fetchUsersSucess, 
+    fetchUsersFailure } = userSlice.actions;
 export default userSlice.reducer;
